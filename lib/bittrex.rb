@@ -1,7 +1,7 @@
 require "bittrex/version"
 require 'openssl'
-require 'rest_client'
 require 'json'
+require 'open-uri'
 
 module Bittrex
   class << self
@@ -73,7 +73,7 @@ module Bittrex
     end
 
     def handle_response(req)
-      response = JSON.parse(req)
+      response = JSON.load(req)
       if response['success']
         response['result']
       else
@@ -85,7 +85,7 @@ module Bittrex
     def request(url, params = '')
       begin
         hmac_sign = generate_sign(url, params)
-        handle_response RestClient.get(@final_url, {'apisign' => hmac_sign})
+        handle_response open(@final_url, 'apisign' => hmac_sign)
       rescue
         return false
       end
