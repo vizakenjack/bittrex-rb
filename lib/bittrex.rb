@@ -11,7 +11,6 @@ module Bittrex
       @api_key = api_key
       @api_secret = api_secret
       @trade_for = trade_for + "-"
-      self
     end
 
     def ticker(market)
